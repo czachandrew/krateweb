@@ -4,11 +4,7 @@
       <b-field label="Name" :type="{ 'is-danger': errors.name }">
         <b-input v-model="user.name"></b-input>
       </b-field>
-      <b-field
-        label="Email"
-        :type="{ 'is-danger': errors.email }"
-        :message="['']"
-      >
+      <b-field label="Email" :type="{ 'is-danger': errors.email }" :message="['']">
         <b-input v-model="user.email"></b-input>
       </b-field>
       <b-field label="Account Type">
@@ -119,6 +115,16 @@ export default class RegistrationForm extends Vue {
         } catch (error) {
           console.log(error);
           this.isBusy = false;
+        }
+        if (
+          this.$store.getters.isLoggedIn === true &&
+          this.$store.getters.accountType === 'organizer'
+        ) {
+          this.$router.push({ name: 'admindash' });
+        } else if (this.$store.getters.isLoggedIn === true) {
+          this.$router.push({ name: 'userdash' });
+        } else {
+          this.$router.push({ name: 'login' });
         }
         // this.$store.dispatch('storeCredentials', creds);
       });
