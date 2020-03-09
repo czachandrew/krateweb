@@ -1,0 +1,57 @@
+import Vue from 'vue';
+import { Module } from 'vuex';
+import * as interfaces from '../interfaces';
+import KrateApi from '@/krateapi';
+
+declare global {
+  interface Array<T> {
+    remove(item: T): T[];
+  }
+}
+Array.prototype.remove = function(item: any) {
+  let what = {};
+  const a = arguments;
+  let L = a.length;
+  let ax;
+  while (L && this.length) {
+    what = a[--L];
+    while ((ax = this.indexOf(what)) !== -1) {
+      this.splice(ax, 1);
+    }
+  }
+  return this;
+};
+
+const getDefaultState = () => {
+  return {};
+};
+
+const api = new KrateApi();
+
+const rewardsModule: Module<any, any> = {
+  namespaced: true,
+  state: {
+    rewards: {} as any
+  },
+  getters: {},
+  mutations: {
+    addReward(state, reward: any) {
+      Vue.set(state.rewards, reward.id, reward);
+    },
+    updateReward(state, updatedReward: any) {
+      state.rewards[updatedReward.id] = updatedReward;
+    }
+  },
+  actions: {
+    addReward({ commit }, reward: any) {
+      commit('addReward', reward);
+    },
+    startRewardRedemption({ commit }, reward: any) {},
+    redeemReward({ commit }, reward: any) {},
+    updateRewardStatus({ commit }, updatedReward: any) {
+      commit('updateReward', updatedReward);
+    }
+  }
+};
+
+export default rewardsModule;
