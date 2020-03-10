@@ -406,7 +406,7 @@ export default class KrateApi {
     try {
       const response = await this.makeRequest(
         RequestTypes.POST,
-        { krate: krate },
+        { krate: { krate } },
         UserEndpoints.buyAndOpenKrate
       );
       if (response.data === 'Not enough funds') {
@@ -451,7 +451,7 @@ export default class KrateApi {
       return response;
     } catch (error) {
       console.log(error);
-      //console.log('Hey I got the error in the makeRequest function');
+      // console.log('Hey I got the error in the makeRequest function');
       throw error.response;
       if (error.response) {
         return error.response.data;

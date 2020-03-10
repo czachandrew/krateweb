@@ -33,11 +33,6 @@ export default {
       activeTab: 0
     };
   },
-  computed: {
-    kratespace() {
-      return this.$store.getters['providers/kratespace'];
-    }
-  },
   components: {
     KrateSpace,
     UserManagementComponent,
