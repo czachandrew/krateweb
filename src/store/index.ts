@@ -21,9 +21,8 @@ const getDefaultState = () => {
     user: {} as interfaces.User,
     username: '' as string,
     progression: {} as interfaces.Progression,
-    krates: [] as interfaces.UserKrates,
+    // krates: [] as interfaces.UserKrates,
     type: 'user' as string,
-    rewards: {},
     events: {},
     token: '' as string
   };
@@ -39,9 +38,8 @@ export default new Vuex.Store({
     user: {} as interfaces.User,
     username: '' as string,
     progression: {} as interfaces.Progression,
-    krates: [] as interfaces.UserKrates,
+    // krates: [] as interfaces.UserKrates,
     type: 'user' as string,
-    rewards: {},
     events: {},
     token: '' as string
   },
@@ -52,6 +50,9 @@ export default new Vuex.Store({
   },
   mutations: {
     resetState(state: any) {
+      if (state.rewards) {
+        Vue.delete(state, 'rewards');
+      }
       Object.assign(state, getDefaultState());
     },
     setUsername(state: any, username: string) {
@@ -108,6 +109,8 @@ export default new Vuex.Store({
       commit('resetState');
       dispatch('spaces/reset');
       dispatch('providers/reset');
+      dispatch('rewards/reset');
+      dispatch('krates/reset');
 
       return true;
     },
@@ -138,10 +141,12 @@ export default new Vuex.Store({
         console.log(userdata);
         if (userdata !== undefined) {
           if (userdata.entities.krates) {
-            commit('setKrates', userdata.entities.krates);
+            dispatch('krates/setMyKrates', userdata.entities.krates);
+            // commit('setKrates', userdata.entities.krates);
           }
           if (userdata.entities.rewards) {
-            commit('setRewards', userdata.entities.rewards);
+            //commit('setRewards', userdata.entities.rewards);
+            dispatch('rewards/setRewards', userdata.entities.rewards);
           }
 
           if (userdata.entities.groups) {

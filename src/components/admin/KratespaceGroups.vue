@@ -126,6 +126,7 @@ export default class KratespaceGroups extends Vue {
 
   public zoomGroup(groupId: string) {
     // this.$store.dispatch('providers/setActiveGroup', groupId);
+    this.$store.dispatch('providers/setActiveGroup', groupId);
     this.$router.push({ name: 'zonegroup', params: { id: groupId } });
   }
 

@@ -66,6 +66,7 @@ const providersModule: Module<any, any> = {
       state.groups[state.active_group].tasks.forEach((element: number) => {
         tasks.push(state.tasks[element]);
       });
+
       return tasks;
     },
     groupDetails: state => (groupid: number) => {
@@ -220,9 +221,9 @@ const providersModule: Module<any, any> = {
         });
       // commit('removeGroup', index);
     },
-    async createTask({ commit }, task: any) {
+    async createTask({ commit }, taskAndRequirements: any) {
       const obj = await api
-        .createTask(task)
+        .createTask(taskAndRequirements)
         .then(response => {
           console.log('This is from the store');
           console.log(response);

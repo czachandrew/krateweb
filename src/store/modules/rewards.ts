@@ -23,7 +23,9 @@ Array.prototype.remove = function(item: any) {
 };
 
 const getDefaultState = () => {
-  return {};
+  return {
+    rewards: {} as any
+  };
 };
 
 const api = new KrateApi();
@@ -40,11 +42,23 @@ const rewardsModule: Module<any, any> = {
     },
     updateReward(state, updatedReward: any) {
       state.rewards[updatedReward.id] = updatedReward;
+    },
+    setRewards(state, rewards: any) {
+      Vue.set(state, 'rewards', rewards);
+    },
+    reset(state) {
+      Object.assign(state, { rewards: {} as any });
     }
   },
   actions: {
     addReward({ commit }, reward: any) {
       commit('addReward', reward);
+    },
+    setRewards({ commit }, rewards: any) {
+      commit('setRewards', rewards);
+    },
+    reset({ commit }) {
+      commit('reset');
     },
     startRewardRedemption({ commit }, reward: any) {},
     redeemReward({ commit }, reward: any) {},

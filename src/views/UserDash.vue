@@ -12,7 +12,9 @@
       <b-tab-item label="My Groups" icon="user-friends">
         <my-groups></my-groups>
       </b-tab-item>
-      <b-tab-item label="My Krates" icon="boxes" style="width: 100%;">
+      <b-tab-item label="My Krates" icon="boxes" style="width: 100%;"></b-tab-item>
+      <b-tab-item label="My Rewards" icon="boxes">
+        <rewards-dash></rewards-dash>
       </b-tab-item>
     </b-tabs>
 
@@ -30,12 +32,14 @@
 import SpaceSearch from '@/components/user/SpaceSearch.vue';
 import MyGroups from '@/components/user/MyGroups.vue';
 import KrateStore from '@/components/user/KrateStore.vue';
+import RewardsDash from '@/components/user/RewardsDash.vue';
 export default {
   name: 'userdash',
   components: {
     SpaceSearch,
     MyGroups,
-    KrateStore
+    KrateStore,
+    RewardsDash
   }
 };
 </script>

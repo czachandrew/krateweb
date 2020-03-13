@@ -1,19 +1,30 @@
 <template>
   <div>
     <!-- Looks like you just task.description -->
-    <h1 class="subtitle">Looks like you're going to "{{ this.taskDetails.description }}".</h1>
+    <h1 class="subtitle">Looks like you're going to "{{ taskDetails.description }}".</h1>
+    <!-- {{taskDetails}} -->
     <div v-if="formRequired" class="form">
-      <b-field class="file">
-        <b-upload v-model="media">
-          <a class="button is-primary">
-            <b-icon icon="upload"></b-icon>
-            <span>Click to add media</span>
-          </a>
-        </b-upload>
-        <span class="file-name" v-if="media">{{ media.name }}</span>
-      </b-field>
+      <div class="list">
+        <div
+          class="list-item"
+          v-for="(requirement,index) in taskDetails.media_requirements"
+          :key="requirement.id"
+        >
+          {{requirement.description}}
+          <b-field class="file">
+            <b-upload v-model="medias[index]">
+              <a class="button is-primary is-small">
+                <b-icon icon="upload"></b-icon>
+                <span>Click to add media</span>
+              </a>
+            </b-upload>
+            <span class="file-name" v-if="medias[index]">{{ medias[index].name }}</span>
+          </b-field>
+        </div>
+      </div>
+
       <b-field class="control">
-        <b-button type="is-primary" :disabled="!media && formRequired" @click="submit()">Submit</b-button>
+        <b-button type="is-primary" :disabled="!medias && formRequired" @click="submit()">Submit</b-button>
       </b-field>
     </div>
     <div v-else>
@@ -51,6 +62,7 @@ interface Usertask {
 export default class UsertaskForm extends Vue {
   @Prop() public taskId!: number;
   public media: any = null;
+  public medias: any = [];
 
   get taskDetails() {
     return this.$store.state.spaces.tasks[this.taskId];
@@ -77,7 +89,7 @@ export default class UsertaskForm extends Vue {
   public submit() {
     //if there is media upload that first
     var mediaObj = null;
-    if (this.media) {
+    if (this.medias) {
       //upload the media
       //verify the filetype
       console.log('I am uploading some media');
@@ -88,14 +100,14 @@ export default class UsertaskForm extends Vue {
       // });
 
       krateapi
-        .submitMedia(this.media, {
+        .submitMedia(this.medias, {
           type: 'photo'
         })
         .then(response => {
           mediaObj = response;
           console.log('I have just set the mediaObj');
           console.log(mediaObj);
-          this.usertask.media_link = response.link;
+          //this.usertask.media_link = response.link;
           console.log('Getting ready to create the usertask');
           console.log(mediaObj);
           const payload = { usertask: this.usertask, media: mediaObj };

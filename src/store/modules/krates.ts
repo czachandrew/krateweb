@@ -23,6 +23,14 @@ Array.prototype.remove = function(item: any) {
   return this;
 };
 
+const getDefaultState = () => {
+  return {
+    openingKrate: null as number | null,
+    myKrates: [] as any,
+    spaceKrates: [] as any
+  };
+};
+
 const api = new KrateApi();
 
 const kratesModule: Module<any, any> = {
@@ -38,6 +46,12 @@ const kratesModule: Module<any, any> = {
   mutations: {
     setOpeningKrate(state, krate) {
       state.openingKrate = krate;
+    },
+    setMyKrates(state, krates) {
+      Vue.set(state, 'myKrates', krates);
+    },
+    reset(state) {
+      Object.assign(state, getDefaultState());
     }
   },
   actions: {
@@ -59,6 +73,12 @@ const kratesModule: Module<any, any> = {
     createCustomKrate({ commit }, krate: any) {},
     openKrate({ commit }, myKrateId: Number) {
       commit('setOpeningKrate', myKrateId);
+    },
+    reset({ commit }) {
+      commit('reset');
+    },
+    setMyKrates({ commit }, krates: any) {
+      commit('setMyKrates', krates);
     }
   }
 };

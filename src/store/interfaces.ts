@@ -38,6 +38,7 @@ export interface NewExperienceTask {
   limit: number;
   media_required: boolean;
   media_type: string;
+  media_requirements: any;
   location: string;
   coordinates: string;
 }

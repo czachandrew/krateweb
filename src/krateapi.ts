@@ -123,7 +123,12 @@ export default class KrateApi {
     console.log(data);
     try {
       let formData = new FormData();
-      formData.append('media', file);
+      var key = 0;
+      for (const obj in file) {
+        formData.append(`media[${key}]`, file[obj]);
+        key++;
+      }
+      //formData.append('media', file);
       formData.append('type', data.type);
       const result = await this.makeRequest(
         RequestTypes.POST,
@@ -287,7 +292,10 @@ export default class KrateApi {
     if (media) {
       payload = { usertask: newTask, media };
     } else {
-      payload = { usertask: newTask };
+      payload = {
+        experienceTask: newTask.task,
+        requirements: newTask.requirements
+      };
     }
     try {
       // var payload = { usertask: newTask };

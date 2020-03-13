@@ -24,13 +24,35 @@
     >
       <b-switch v-model="newTask.media_required">Require media verification?</b-switch>
     </b-field>
+    <b-field label="Describe the requirement" v-if="newTask.media_required">
+      <b-input type="text" v-model="newRequirement.description" />
+    </b-field>
     <b-field v-if="newTask.media_required" label="Media type required...">
-      <b-select v-model="newTask.media_type">
+      <b-select v-model="newRequirement.type">
         <option value="photo">Photo</option>
         <option value="video">Video</option>
         <option value="checkin">Check In</option>
       </b-select>
     </b-field>
+    <b-button
+      @click="addRequirement"
+      v-if="newTask.media_required"
+      type="primary"
+      size="small"
+    >+ Requirement</b-button>
+    <div class="list is-hoverable" v-if="mediaRequirements">
+      <div class="list-group">
+        <div class="list-group-item-heading">Media Requirements:</div>
+        <div
+          class="list-group-item"
+          v-for="(requirement, index) in mediaRequirements"
+          :key="requirement.description"
+        >
+          {{requirement.description}} {{index}}
+          <b-button @click="deleteRequirement(index)" type="primary" size="is-small">Delete</b-button>
+        </div>
+      </div>
+    </div>
     <b-button type="is-danger" @click="save">Create</b-button>
   </div>
 </template>
@@ -45,9 +67,17 @@ enum Types {
 
 @Component({})
 export default class ExperienceTaskFrom extends Vue {
+  // adding a media requirement
+
+  // push a button to add a media requirement and tell me what type of media and describe it
+  //
   @Prop() public group!: number | string;
   @Prop({ default: Types.new }) public type!: Types;
   @Prop() public taskId!: number;
+  public newRequirement: any = {
+    description: '',
+    type: 'photo'
+  };
   public newTask: NewExperienceTask = {
     xp_value: 100,
     description: '',
@@ -61,6 +91,10 @@ export default class ExperienceTaskFrom extends Vue {
     location: '',
     coordinates: ''
   };
+
+  public mediaRequirements: any = {};
+
+  public newRequirementIndex: number = 0;
 
   public resetForm() {
     this.newTask = {
@@ -84,10 +118,26 @@ export default class ExperienceTaskFrom extends Vue {
       type: 'is-success'
     });
   }
+  public addRequirement() {
+    Vue.set(
+      this.mediaRequirements,
+      this.newRequirementIndex,
+      this.newRequirement
+    );
+    this.newRequirementIndex++;
+    this.newRequirement = { description: '', type: 'photo' };
+  }
+
+  public deleteRequirement(index: number) {
+    Vue.delete(this.mediaRequirements, index);
+  }
 
   public save() {
     this.$store
-      .dispatch('providers/createTask', this.newTask)
+      .dispatch('providers/createTask', {
+        task: this.newTask,
+        requirements: this.mediaRequirements
+      })
       .then(response => {
         console.log(response);
         this.resetForm();
