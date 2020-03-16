@@ -92,8 +92,13 @@ export default class KrateApi {
     kratespaces: this.kratespaces,
     usertasks: this.usertasks
   });
-  private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
-  private clientId = 2;
+  // This is for dev
+  // private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
+  // private clientId = 2;
+
+  // This is for prod
+  private clientToken = 'ncifvqeGLreJtADL6S64XZj8AdtUhuuespi5Mx6w';
+  private clientId = 1;
 
   //   urls;
   constructor() {
