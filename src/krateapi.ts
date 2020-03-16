@@ -15,43 +15,43 @@ interface NewUser {
   type: string;
 }
 
-const baseUrl: string = 'http://thirtydays.test/';
+const baseUrl: string = 'http://thirtydays.test';
 
 enum UserEndpoints {
-  joinSpace = 'http://thirtydays.test/api/kratespace/join/',
-  leaveSpace = 'http://thirtydays.test/api/kratesspace/leave/',
-  subscribeToGroup = 'http://thirtydays.test/api/zonegroup/subscribe',
-  unsubscribeToGroup = 'http://thirtydays.test/api/zonegroup/unsubscribe',
-  makeUsertask = 'http://thirtydays.test/api/usertask',
-  makeSubmission = 'http://thirtydays.test/api/submission',
-  searchSpaces = 'http://thirtydays.test/api/kratespace/search',
-  spaceDetails = 'http://thirtydays.test/api/kratespace/details',
-  submitMedia = 'http://thirtydays.test/api/usermedia',
-  buyKrate = 'http://thirtydays.test/api/krates/buy',
-  buyAndOpenKrate = 'http://thirtydays.test/api/krates/buyandopen',
-  openKrate = 'http://thirtydays.test/api/krates/open'
+  joinSpace = '/api/kratespace/join/',
+  leaveSpace = '/api/kratesspace/leave/',
+  subscribeToGroup = '/api/zonegroup/subscribe',
+  unsubscribeToGroup = '/api/zonegroup/unsubscribe',
+  makeUsertask = '/api/usertask',
+  makeSubmission = '/api/submission',
+  searchSpaces = '/api/kratespace/search',
+  spaceDetails = '/api/kratespace/details',
+  submitMedia = '/api/usermedia',
+  buyKrate = '/api/krates/buy',
+  buyAndOpenKrate = '/api/krates/buyandopen',
+  openKrate = '/api/krates/open'
 }
 
 enum EndPoints {
-  login = 'http://thirtydays.test/oauth/token',
-  register = 'http://thirtydays.test/signup',
-  providerData = 'http://thirtydays.test/api/provider/superdata',
-  userData = 'http://thirtydays.test/api/user/superdata',
-  createReward = 'http://thirtydays.test/api/reward',
-  createEvent = 'http://thirtydays.test/api/events',
-  createKrate = 'http://thirtydays.test/api/krates',
-  createSpace = 'http://thirtydays.test/api/kratespace',
-  awardXp = 'http://thirtydays.test/api/award/',
-  createGroup = 'http://thirtydays.test/api/kratespace/',
-  deleteGroup = 'http://thirtydays.test/api/zonegroup/',
-  createTask = 'http://thirtydays.test/api/provider/task/ ',
-  deleteTask = 'http://thirtydays.test/api/provider/task/',
-  approveUsertask = 'http://thirtydays.test/api/provider/usertask/approve/',
-  denyUsertask = 'http://thirtydays.test/api/provider/usertask/deny/',
-  getKrates = 'http://thirtydays.test/api/krates/store',
-  rejectSubmission = 'http://thirtydays.test/api/provider/submission/reject/',
-  acceptSubmission = 'http://thirtydays.test/api/provider/submission/accept/',
-  addToBank = 'http://thirtydays.test/api/provider/addtobank'
+  login = '/oauth/token',
+  register = '/signup',
+  providerData = '/api/provider/superdata',
+  userData = '/api/user/superdata',
+  createReward = '/api/reward',
+  createEvent = '/api/events',
+  createKrate = '/api/krates',
+  createSpace = '/api/kratespace',
+  awardXp = '/api/award/',
+  createGroup = '/api/kratespace/',
+  deleteGroup = '/api/zonegroup/',
+  createTask = '/api/provider/task/ ',
+  deleteTask = '/api/provider/task/',
+  approveUsertask = '/api/provider/usertask/approve/',
+  denyUsertask = '/api/provider/usertask/deny/',
+  getKrates = '/api/krates/store',
+  rejectSubmission = '/api/provider/submission/reject/',
+  acceptSubmission = '/api/provider/submission/accept/',
+  addToBank = '/api/provider/addtobank'
 }
 
 export default class KrateApi {
@@ -109,7 +109,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         newuser,
-        EndPoints.register
+        baseUrl + EndPoints.register
       );
       return response;
     } catch (error) {
@@ -133,7 +133,7 @@ export default class KrateApi {
       const result = await this.makeRequest(
         RequestTypes.POST,
         formData,
-        UserEndpoints.submitMedia
+        baseUrl + UserEndpoints.submitMedia
       );
       console.log('I have uplaoded the media');
       console.log(result.data);
@@ -150,7 +150,7 @@ export default class KrateApi {
       const result = await this.makeRequest(
         RequestTypes.GET,
         {},
-        EndPoints.approveUsertask + usertask
+        baseUrl + EndPoints.approveUsertask + usertask
       );
       console.log(result);
       return true;
@@ -170,7 +170,7 @@ export default class KrateApi {
       const result = await this.makeRequest(
         RequestTypes.POST,
         payload,
-        UserEndpoints.searchSpaces
+        baseUrl + UserEndpoints.searchSpaces
       );
       return result;
     } catch (error) {
@@ -189,7 +189,7 @@ export default class KrateApi {
           client_id: this.clientId,
           client_secret: this.clientToken
         },
-        EndPoints.login
+        baseUrl + EndPoints.login
       );
       return token;
     } catch (error) {
@@ -202,7 +202,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.GET,
         {},
-        EndPoints.providerData
+        baseUrl + EndPoints.providerData
       );
       console.log(response);
       const data = normalize(response.data, this.providerData);
@@ -217,7 +217,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.GET,
         {},
-        EndPoints.userData
+        baseUrl + EndPoints.userData
       );
       console.log(response.data);
       const normalizedData = normalize(response.data, this.apiData);
@@ -233,7 +233,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         newSpace,
-        EndPoints.createSpace
+        baseUrl + EndPoints.createSpace
       );
       console.log(response);
       return response;
@@ -247,7 +247,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         XpObject,
-        EndPoints.awardXp
+        baseUrl + EndPoints.awardXp
       );
       console.log(response);
       return response;
@@ -263,7 +263,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         { amount: amount },
-        EndPoints.addToBank
+        baseUrl + EndPoints.addToBank
       );
 
       return response.data;
@@ -278,7 +278,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.GET,
         {},
-        UserEndpoints.joinSpace + space
+        baseUrl + UserEndpoints.joinSpace + space
       );
       console.log(response);
       return response;
@@ -303,7 +303,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         payload,
-        EndPoints.createTask
+        baseUrl + EndPoints.createTask
       );
       console.log(response);
       return response;
@@ -320,7 +320,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         payload,
-        UserEndpoints.makeUsertask
+        baseUrl + UserEndpoints.makeUsertask
       );
 
       return response.data;
@@ -335,7 +335,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         { space: id },
-        UserEndpoints.spaceDetails
+        baseUrl + UserEndpoints.spaceDetails
       );
       console.log(response.data);
       return response.data;
@@ -349,7 +349,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         newGroup,
-        EndPoints.createGroup + newGroup.kratespace_id + '/group'
+        baseUrl + EndPoints.createGroup + newGroup.kratespace_id + '/group'
       );
       const groupData = normalize(response.data, this.groups);
       return groupData.entities;
@@ -363,7 +363,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.DELETE,
         {},
-        EndPoints.deleteGroup + group
+        baseUrl + EndPoints.deleteGroup + group
       );
       return true;
     } catch (error) {
@@ -376,7 +376,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.GET,
         {},
-        EndPoints.getKrates
+        baseUrl + EndPoints.getKrates
       );
     } catch (error) {
       console.log(error);
@@ -388,7 +388,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.DELETE,
         {},
-        EndPoints.deleteTask + task
+        baseUrl + EndPoints.deleteTask + task
       );
       return response;
     } catch (error) {
@@ -401,7 +401,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         payload,
-        EndPoints.createReward
+        baseUrl + EndPoints.createReward
       );
 
       return response.data;
@@ -415,7 +415,7 @@ export default class KrateApi {
       const response = await this.makeRequest(
         RequestTypes.POST,
         { krate: { krate } },
-        UserEndpoints.buyAndOpenKrate
+        baseUrl + UserEndpoints.buyAndOpenKrate
       );
       if (response.data === 'Not enough funds') {
         throw response.data;

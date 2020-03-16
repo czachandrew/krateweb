@@ -89,7 +89,8 @@ export default class ExperienceTaskFrom extends Vue {
     media_required: false,
     media_type: 'photo',
     location: '',
-    coordinates: ''
+    coordinates: '',
+    media_requirements: []
   };
 
   public mediaRequirements: any = {};
@@ -108,7 +109,8 @@ export default class ExperienceTaskFrom extends Vue {
       media_required: false,
       media_type: 'photo',
       location: '',
-      coordinates: ''
+      coordinates: '',
+      media_requirements: []
     };
   }
 

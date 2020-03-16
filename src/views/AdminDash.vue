@@ -22,27 +22,24 @@
   </div>
 </template>
 <script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import UserManagementComponent from '@/components/admin/UserManagementComponent.vue';
 import KrateSpace from '@/components/admin/KrateSpace.vue';
 import RewardsAdmin from '@/components/admin/RewardsAdmin.vue';
 import XpBank from '@/components/admin/XpBank.vue';
-export default {
-  name: 'admindash',
-  data() {
-    return {
-      activeTab: 0
-    };
-  },
-  computed: {
-    kratespace() {
-      return this.$store.getters['providers/kratespace'];
-    }
-  },
+@Component({
   components: {
     KrateSpace,
     UserManagementComponent,
     RewardsAdmin,
     XpBank
   }
-};
+})
+export default class Admindash extends Vue {
+  public activeTab: number = 0;
+
+  get kratespace() {
+    return this.$store.getters['providers/kratespace'];
+  }
+}
 </script>
