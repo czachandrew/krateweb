@@ -15,7 +15,7 @@ interface NewUser {
   type: string;
 }
 
-const baseUrl: string = 'http://thirtydays.test';
+const baseUrl: string = 'http://api.kratelyfe.com';
 
 enum UserEndpoints {
   joinSpace = '/api/kratespace/join/',
