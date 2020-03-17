@@ -97,8 +97,8 @@ export default class KrateApi {
   // private clientId = 2;
 
   // This is for prod
-  private clientToken = 'ncifvqeGLreJtADL6S64XZj8AdtUhuuespi5Mx6w';
-  private clientId = 1;
+  private clientToken = 'eNKZ1GVUaa2JxD5ZRs8ALkXe7pJ9i0COl18SlUum';
+  private clientId = 2;
 
   //   urls;
   constructor() {
