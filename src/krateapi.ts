@@ -15,7 +15,7 @@ interface NewUser {
   type: string;
 }
 
-var baseUrl: string = 'http://thirtydays.test';
+var baseUrl: string = 'http://api.kratelyfe.com';
 
 enum UserEndpoints {
   joinSpace = '/api/kratespace/join/',
@@ -94,13 +94,13 @@ export default class KrateApi {
     usertasks: this.usertasks
   });
   // This is for dev
-  private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
-  private clientId = 2;
+  // private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
+  // private clientId = 2;
 
   // This is for prod
 
-  // private clientToken = 'eNKZ1GVUaa2JxD5ZRs8ALkXe7pJ9i0COl18SlUum';
-  // private clientId = 2;
+  private clientToken = 'eNKZ1GVUaa2JxD5ZRs8ALkXe7pJ9i0COl18SlUum';
+  private clientId = 2;
 
   //   urls;
   constructor() {
