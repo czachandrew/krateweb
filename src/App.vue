@@ -60,9 +60,15 @@ export default class App extends Vue {
     this.$store.dispatch('providers/init');
   }
   logout() {
-    this.$store.dispatch('logout').then(response => {
-      this.$router.push('/login');
-    });
+    this.$store
+      .dispatch('logout')
+      .then(response => {
+        this.$router.push('/login');
+      })
+      .catch(error => {
+        console.log('There was an error logging out');
+        console.log(error);
+      });
   }
 
   goToLogin() {

@@ -72,6 +72,7 @@ export interface User {
   progression: Progression;
   rewards: [Reward] | any;
   type: string;
+  requests: any;
 }
 
 export interface KrateInfo {

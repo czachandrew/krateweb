@@ -127,6 +127,9 @@ export default class RegistrationForm extends Vue {
           this.$router.push({ name: 'login' });
         }
         // this.$store.dispatch('storeCredentials', creds);
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 }

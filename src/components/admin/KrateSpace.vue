@@ -19,7 +19,7 @@
     <b-modal :active.sync="isSpaceModalActive">
       <div class="card">
         <div class="card-content">
-          <krate-space-form></krate-space-form>
+          <krate-space-form @success="isSpaceModalActive = false"></krate-space-form>
         </div>
       </div>
     </b-modal>

@@ -45,7 +45,7 @@ export default new Vuex.Store({
   },
   getters: {
     accountType: state => state.user.type,
-    userId: state => state.userId,
+    userId: state => state.user.id,
     isLoggedIn: state => state.userId !== 0
   },
   mutations: {
@@ -54,6 +54,9 @@ export default new Vuex.Store({
         Vue.delete(state, 'rewards');
       }
       Object.assign(state, getDefaultState());
+    },
+    addJoinRequest(state, join) {
+      state.user.requests.push(join);
     },
     setUsername(state: any, username: string) {
       state.username = username;
@@ -98,19 +101,24 @@ export default new Vuex.Store({
         // console.log(tokenResp);
         return tokenResp;
       } catch (error) {
-        console.log(error.response);
+        console.log(error);
+        throw error.data;
       }
+    },
+    addJoinRequest({ commit }, join) {
+      commit('addJoinRequest', join);
     },
     addXp({ commit }, xpValue: number) {
       commit('addXp', xpValue);
     },
     async logout({ commit, dispatch }, credentials) {
       localStorage.removeItem('krateToken');
-      commit('resetState');
+
       dispatch('spaces/reset');
       dispatch('providers/reset');
       dispatch('rewards/reset');
       dispatch('krates/reset');
+      commit('resetState');
 
       return true;
     },
@@ -118,6 +126,7 @@ export default new Vuex.Store({
       commit('setUsername', credentials.username);
       commit('setToken', credentials.token);
       const user = await dispatch('initFromServer');
+      //commit('setUser', user);
       return user;
     },
     async registerUser({ commit }, payload) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="kratespace.name">
     <nav class="level">
       <div class="level-item">
         <div class="tile is-ancestor">
@@ -32,6 +32,10 @@ export default class XpBank extends Vue {
 
   get xp() {
     return this.$store.state.providers.space_xp;
+  }
+
+  get kratespace() {
+    return this.$store.getters['providers/kratespace'];
   }
   public addToBank() {
     console.log('adding');

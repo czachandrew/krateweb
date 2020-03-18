@@ -57,6 +57,7 @@ const providersModule: Module<any, any> = {
     usertasksForApproval: {}
   },
   getters: {
+    joinRequests: state => state.kratespace.requests,
     kratespace: state => state.kratespace,
     kratespace_id: state => state.kratespace.id,
     myusers: state => state.users,
@@ -104,8 +105,9 @@ const providersModule: Module<any, any> = {
     addTask(state, task: any) {
       console.log('adding a task');
       console.log(task);
-      state.groups[task.zonegroup_id].tasks.push(task.id);
       Vue.set(state.tasks, task.id, task);
+      console.log(state.groups);
+      state.groups[task.zonegroup_id].tasks.push(task.id);
     },
     setSubmissions(state, payload) {
       Vue.set(state, 'submissions', payload);
@@ -129,7 +131,8 @@ const providersModule: Module<any, any> = {
       state.groups[group.id] = group;
     },
     addReward(state, reward: any) {
-      state.rewards[reward.id] = reward;
+      Vue.set(state.rewards, reward.id, reward);
+      //state.rewards[reward.id] = reward;
     },
     setActiveGroup(state, group: number) {
       state.active_group = group;
@@ -171,6 +174,20 @@ const providersModule: Module<any, any> = {
       } catch (error) {
         throw error;
       }
+    },
+    approveJoinRequest({ commit }, requestId: any) {
+      api
+        .approveJoinRequest(requestId)
+        .then(response => {
+          console.log('here is the approve response');
+          console.log(response);
+          commit('approveJoinRequest', requestId);
+          return response;
+        })
+        .catch(error => {
+          console.log(error);
+          throw error;
+        });
     },
     approveUsertask({ commit, state }, usertask: any) {
       api
@@ -271,14 +288,14 @@ const providersModule: Module<any, any> = {
           console.log(error);
         });
     },
-    createSpace({ commit }, newSpace: interfaces.NewKrateSpace) {
+    createSpace({ commit, dispatch }, newSpace: interfaces.NewKrateSpace) {
       api
         .createSpace(newSpace)
         .then(response => {
           console.log('Successfully created a space!');
           console.log(response);
           commit('setKratespace', response.data);
-          commit('init');
+          dispatch('init');
           return response.data;
         })
         .catch(error => {

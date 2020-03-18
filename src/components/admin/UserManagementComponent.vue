@@ -30,6 +30,7 @@
         </tr>
       </tbody>
     </table>
+    <join-requests></join-requests>
     <b-modal
       :active.sync="showXpRewardModal"
       has-modal-card
@@ -55,7 +56,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-@Component({})
+import JoinRequests from '@/components/admin/JoinRequests.vue';
+@Component({
+  components: {
+    JoinRequests
+  }
+})
 export default class UserManagement extends Vue {
   // users and what space, last_activity
   get myUsers() {

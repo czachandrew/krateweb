@@ -35,10 +35,19 @@ const rewardsModule: Module<any, any> = {
   state: {
     rewards: {} as any
   },
-  getters: {},
+  getters: {
+    myRewards: state => state.rewards
+  },
   mutations: {
     addReward(state, reward: any) {
-      Vue.set(state.rewards, reward.id, reward);
+      console.log('Adding a reward');
+      if (state.rewards) {
+        console.log('rewards are set');
+        Vue.set(state.rewards, reward.id, reward);
+      } else {
+        console.log('nnot set');
+        Vue.set(state, 'rewards', { [reward.id]: reward });
+      }
     },
     updateReward(state, updatedReward: any) {
       state.rewards[updatedReward.id] = updatedReward;
@@ -47,7 +56,9 @@ const rewardsModule: Module<any, any> = {
       Vue.set(state, 'rewards', rewards);
     },
     reset(state) {
-      Object.assign(state, { rewards: {} as any });
+      //Object.assign(state, { rewards: {} as any });
+      console.log(state);
+      Vue.set(state, 'rewards', {});
     }
   },
   actions: {

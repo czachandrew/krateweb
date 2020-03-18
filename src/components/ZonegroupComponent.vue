@@ -86,7 +86,7 @@
     >
       <div class="modal-card">
         <div class="modal-card-body">
-          <experience-task-form :group="groupId" v-on:done="doneMakingTask"></experience-task-form>
+          <experience-task-form :group="groupId" @success="isTaskFormModalActive = false"></experience-task-form>
         </div>
       </div>
     </b-modal>

@@ -20,13 +20,13 @@
             </div>
             <div class="tile is-parent">
               <article class="tile is-child box">
-                <p class="title">59k</p>
+                <p class="title">{{totalTasks}}</p>
                 <p class="subtitle">XP Tasks</p>
               </article>
             </div>
             <div class="tile is-parent">
               <article class="tile is-child box">
-                <p class="title">3.4k</p>
+                <p class="title">{{kratespace.rewards.length}}</p>
                 <p class="subtitle">Potential Rewards</p>
               </article>
             </div>
@@ -75,7 +75,14 @@
             <div class="card">
               <div class="card-content">
                 <div class="content">
-                  <b-button type="is-primary" size="is-large" icon="faUser" @click="join">Join!</b-button>
+                  <b-button
+                    type="is-primary"
+                    size="is-large"
+                    icon="faUser"
+                    @click="join"
+                    :disabled="this.mystatus === 'pending'"
+                  >Join!</b-button>
+                  <p class="is-bold" v-if="this.mystatus === 'pending'">You are waiting for approval</p>
                 </div>
               </div>
             </div>
@@ -124,11 +131,43 @@ export default class SpacePreview extends Vue {
     return this.space;
   }
 
+  get mystatus() {
+    for (const request in this.$store.state.user.requests) {
+      console.log(this.$store.state.user.requests[request].kratespace_id);
+      console.log(this.id);
+      if (
+        String(this.$store.state.user.requests[request].kratespace_id) ===
+        this.id
+      ) {
+        console.log('returning pending');
+        return 'pending';
+      }
+    }
+  }
+
+  get totalTasks() {
+    var total = 0;
+    for (const group in this.space.groups) {
+      if (this.space.groups[group]) {
+        if (this.space.groups[group].tasks !== undefined) {
+          total += this.space.groups[group].tasks.length;
+        }
+        console.log(this.space.groups[group].tasks);
+      }
+      console.log(this.space.groups[group]);
+    }
+
+    return total;
+  }
+
   public join() {
     api
       .joinSpace(this.id)
       .then(response => {
         console.log(response);
+        if (response.data.status === 'pending') {
+          this.$store.state.dispatch('addJoinRequest', response.data);
+        }
         // check the status in the response, some groups you can join freely others require that you be approved
         // pops a success message
         // update the data store locally

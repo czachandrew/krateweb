@@ -15,7 +15,7 @@ interface NewUser {
   type: string;
 }
 
-const baseUrl: string = 'http://api.kratelyfe.com';
+var baseUrl: string = 'http://thirtydays.test';
 
 enum UserEndpoints {
   joinSpace = '/api/kratespace/join/',
@@ -48,6 +48,7 @@ enum EndPoints {
   deleteTask = '/api/provider/task/',
   approveUsertask = '/api/provider/usertask/approve/',
   denyUsertask = '/api/provider/usertask/deny/',
+  approveJoinRequest = '/api/provider/joinrequests/approve/',
   getKrates = '/api/krates/store',
   rejectSubmission = '/api/provider/submission/reject/',
   acceptSubmission = '/api/provider/submission/accept/',
@@ -93,15 +94,24 @@ export default class KrateApi {
     usertasks: this.usertasks
   });
   // This is for dev
-  // private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
-  // private clientId = 2;
+  private clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
+  private clientId = 2;
 
   // This is for prod
-  private clientToken = 'eNKZ1GVUaa2JxD5ZRs8ALkXe7pJ9i0COl18SlUum';
-  private clientId = 2;
+
+  // private clientToken = 'eNKZ1GVUaa2JxD5ZRs8ALkXe7pJ9i0COl18SlUum';
+  // private clientId = 2;
 
   //   urls;
   constructor() {
+    // console.log('constructing');
+    // console.log(window.location.hostname);
+    // if (window.location.hostname == 'localhost') {
+    //   console.log('local host');
+    //   this.clientToken = 'onQzs2oJCPJhy3Sh7sCwsW7tuO8NuV9mVf1rtZeg';
+    //   this.clientId = 2;
+    //   baseUrl = 'http://thirtydays.test';
+    // }
     axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';
     if (localStorage.getItem('krateToken')) {
       axios.defaults.headers['Authorization'] =
@@ -147,6 +157,20 @@ export default class KrateApi {
       console.log('there was an error');
       console.log(error);
       throw 'There was an error ' + error.message;
+    }
+  }
+
+  public async approveJoinRequest(requestId: string) {
+    try {
+      const result = await this.makeRequest(
+        RequestTypes.GET,
+        {},
+        baseUrl + EndPoints.approveJoinRequest + requestId
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error.data;
     }
   }
 
@@ -198,7 +222,7 @@ export default class KrateApi {
       );
       return token;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 
@@ -419,7 +443,7 @@ export default class KrateApi {
     try {
       const response = await this.makeRequest(
         RequestTypes.POST,
-        { krate: { krate } },
+        krate,
         baseUrl + UserEndpoints.buyAndOpenKrate
       );
       if (response.data === 'Not enough funds') {
@@ -444,9 +468,18 @@ export default class KrateApi {
     payload = {},
     endpoint: EndPoints | string
   ) {
-    const headers = {
-      Authorization: 'Bearer ' + localStorage.getItem('krateToken')
-    };
+    var headers = {};
+    if (
+      localStorage.getItem('krateToken') !== 'undefined' &&
+      localStorage.getItem('krateToken') !== null
+    ) {
+      //console.log('Token is here');
+      //console.log(localStorage.getItem('krateToken'));
+      headers = {
+        Authorization: 'Bearer ' + localStorage.getItem('krateToken')
+      };
+    }
+
     const config = {
       method,
       url: endpoint,

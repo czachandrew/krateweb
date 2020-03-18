@@ -47,6 +47,17 @@ export default class KrateSpaceForm extends Vue {
       .dispatch('providers/createSpace', this.newSpace)
       .then(response => {
         console.log(response);
+        this.$buefy.toast.open({
+          type: 'is-success',
+          message:
+            'Your space ' +
+            this.newSpace.name +
+            ' has been successfully created'
+        });
+        this.$emit('success');
+      })
+      .catch(error => {
+        console.log('There was some kind of error creating the space');
       });
   }
 }

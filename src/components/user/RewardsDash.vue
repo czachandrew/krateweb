@@ -7,7 +7,7 @@
           <th>Status</th>
           <th>&nbsp;</th>
         </thead>
-        <tbody>
+        <tbody v-if="rewards.length > 0">
           <tr v-for="reward in rewards" :key="reward.id">
             <td>
               {{reward.title}}

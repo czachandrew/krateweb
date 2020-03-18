@@ -141,12 +141,13 @@ export default class ExperienceTaskFrom extends Vue {
       .then(response => {
         console.log(response);
         this.resetForm();
-        this.$emit('done', 'created');
+
         // here we should pop an event
         this.toast(
           'You have successfully created an experience task: ' +
             response.description
         );
+        this.$emit('success');
       })
       .catch(error => {
         console.log('There was some kidn of error');

@@ -1,6 +1,6 @@
 <template>
   <b-modal :active.sync="isOpen" has-modal-card>
-    <div class="card" v-if="reward">
+    <div class="card" v-if="reward !== null">
       <div class="card-header">
         <div class="card-header-title">
           <h1>Reward Modal</h1>

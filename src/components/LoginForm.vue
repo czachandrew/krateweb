@@ -81,6 +81,11 @@ export default class LoginForm extends Vue {
               this.isBusy = false;
             });
         }
+      })
+      .catch(error => {
+        console.log('There was a credential problem');
+        this.isBusy = false;
+        this.error = error.error;
       });
   }
 
