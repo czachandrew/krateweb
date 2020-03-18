@@ -166,7 +166,7 @@ export default class SpacePreview extends Vue {
       .then(response => {
         console.log(response);
         if (response.data.status === 'pending') {
-          this.$store.state.dispatch('addJoinRequest', response.data);
+          this.$store.dispatch('addJoinRequest', response.data);
         }
         // check the status in the response, some groups you can join freely others require that you be approved
         // pops a success message
