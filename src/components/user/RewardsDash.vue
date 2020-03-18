@@ -7,7 +7,7 @@
           <th>Status</th>
           <th>&nbsp;</th>
         </thead>
-        <tbody v-if="rewards.length > 0">
+        <tbody v-if="rewards">
           <tr v-for="reward in rewards" :key="reward.id">
             <td>
               {{reward.title}}
@@ -40,7 +40,7 @@ export default class RewardsDash extends Vue {
   public showRewardModal: boolean = false;
   public examinedRewardId: number = 0;
   get rewards() {
-    return this.$store.state.rewards.rewards;
+    return this.$store.getters['rewards/myRewards'];
   }
 
   public examineReward(rewardId: number) {

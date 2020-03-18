@@ -23,12 +23,10 @@ export default class JoinRequests extends Vue {
     this.$store
       .dispatch('providers/approveJoinRequest', requestId)
       .then(response => {
-        if (response === 'success') {
-          this.$buefy.toast.open({
-            type: 'is-success',
-            message: 'You approved this request'
-          });
-        }
+        this.$buefy.toast.open({
+          type: 'is-success',
+          message: 'You approved this request'
+        });
       })
       .catch(error => {
         console.log(error);
