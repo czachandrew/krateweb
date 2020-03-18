@@ -56,9 +56,7 @@ const rewardsModule: Module<any, any> = {
       Vue.set(state, 'rewards', rewards);
     },
     reset(state) {
-      //Object.assign(state, { rewards: {} as any });
-      console.log(state);
-      Vue.set(state, 'rewards', {});
+      Object.assign(state, getDefaultState());
     }
   },
   actions: {
