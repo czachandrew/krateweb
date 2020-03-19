@@ -10,7 +10,7 @@
         <!-- {{usertask}} -->
         <b-tooltip label="Click to zoom">
           <figure class="image is-64x64 tile" v-for="media in usertask.media" :key="media.id">
-            <img :src="'http://thirtydays.test/' + media.link" @click="zoomImage(media.link)" />
+            <img :src="'http://api.kratelyfe.com/' + media.link" @click="zoomImage(media.link)" />
           </figure>
         </b-tooltip>
         <br />Submitted by -
